@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private val url = "https://api.unsplash.com/photos/?client_id=231e96aa0adac9fe977c7e025674c14548b0327f187c38b1c1fd616277d1b946"
     private var listUrl : MutableList<PhotoSlide>? = null
     private var currentPage = 0
+    private  var swipeTimer = Timer()
+    private var isTimerRunning = true
+    private var nextPage = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,22 +34,35 @@ class MainActivity : AppCompatActivity() {
         loadNetworkData()
     }
 
-    private fun setUpAutoSlide() {
+    override fun onResume() {
+        super.onResume()
+       if(!isTimerRunning)
+          setUpAutoSlider()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        swipeTimer.cancel()
+        isTimerRunning = false
+    }
+
+    private fun setUpAutoSlider() {
         val handler = Handler()
         val update = Runnable {
-            if (currentPage == listUrl?.size) {
-                currentPage = 0
+            nextPage = viewPager.currentItem +1
+            Log.d("CurP->", nextPage.toString())
+            if (nextPage == listUrl?.size) {
+                nextPage = 0
             }
-            Log.d("CurP->", currentPage.toString())
-            viewPager.setCurrentItem(currentPage++, true)
+            viewPager.setCurrentItem(nextPage, true)
         }
 
-        val swipeTimer = Timer()
+        swipeTimer = Timer()
         swipeTimer.schedule(object : TimerTask() {
             override fun run() {
                 handler.post(update)
             }
-        }, 2500, 2500)
+        }, 3000, 3000)
     }
 
 
@@ -68,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                         tabLayout.setupWithViewPager(viewPager)
 
                     }
-                    setUpAutoSlide()
+                    setUpAutoSlider()
                 },
                 Response.ErrorListener {
                     Toast.makeText(this, "That didn't work!", Toast.LENGTH_SHORT).show()
@@ -78,5 +94,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
 
 }

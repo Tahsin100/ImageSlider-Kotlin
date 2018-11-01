@@ -2,4 +2,4 @@
 
 This is an ImageSlider made with Kotlin language
 
-<a href="https://ibb.co/cEMSA0"><img src="https://preview.ibb.co/kqbG3L/ezgif-4-7660ef6afba1.gif" alt="ezgif-4-7660ef6afba1" border="0"></a><br /><a target='_blank'>Image Slider Kotlin</a><br />
+<iframe src="https://giphy.com/embed/3d4NRCIkh3h0QyXKE9" width="270" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p></p>
